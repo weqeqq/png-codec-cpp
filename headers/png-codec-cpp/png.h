@@ -56,14 +56,14 @@ using ByteContainer = std::vector<std::uint8_t>;
 
 PNG_CODEC_EXPORT ByteContainer Decode(
   const ByteContainer &data,
-  int                 row_count,
-  int                 column_count,
+  int                 &row_count,
+  int                 &column_count,
   Color               color
 );
 inline ByteContainer Decode(
   const ByteContainer &data,
-  int                 row_count,
-  int                 column_count
+  int                 &row_count,
+  int                 &column_count
 ) {
   return Decode(data, row_count, column_count, Color::Rgba);
 }
