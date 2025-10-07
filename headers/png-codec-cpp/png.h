@@ -2,7 +2,6 @@
 #pragma once
 
 /* clang-format off */
-#include <stdexcept>
 #if defined(_WIN32) || defined(__CYGWIN__)
   #ifdef PNG_CODEC_SHARED
     #ifdef PNG_CODEC_BUILD
@@ -22,7 +21,9 @@
 #endif
 /* clang-format on */
 
+#include <cstddef>
 #include <cstdint>
+#include <stdexcept>
 #include <vector>
 
 namespace PngCodec {
@@ -50,29 +51,28 @@ enum class Color : std::uint32_t {
   Cmyk = 0xD0038888,
 };
 
-using ByteContainer = std::vector<std::uint8_t>;
+PNG_CODEC_EXPORT std::vector<std::uint8_t> Decode(const std::uint8_t *data,
+                                                  std::size_t length,
+                                                  std::size_t &row_count,
+                                                  std::size_t &column_count,
+                                                  Color color);
 
-/* clang-format off */
-
-PNG_CODEC_EXPORT ByteContainer Decode(
-  const ByteContainer &data,
-  int                 &row_count,
-  int                 &column_count,
-  Color               color
-);
-inline ByteContainer Decode(
-  const ByteContainer &data,
-  int                 &row_count,
-  int                 &column_count
-) {
-  return Decode(data, row_count, column_count, Color::Rgba);
+inline std::vector<std::uint8_t> Decode(const std::vector<std::uint8_t> &data,
+                                        std::size_t &row_count,
+                                        std::size_t &column_count,
+                                        Color color) {
+  return Decode(data.data(), data.size(), row_count, column_count, color);
 }
-PNG_CODEC_EXPORT ByteContainer Encode(
-  const ByteContainer &data,
-  int                  row_count,
-  int                  column_count,
-  Color                color
-);
-/* clang-format on */
+
+PNG_CODEC_EXPORT std::vector<std::uint8_t> Encode(const std::uint8_t *data,
+                                                  std::size_t row_count,
+                                                  std::size_t column_count,
+                                                  Color color);
+
+inline std::vector<std::uint8_t> Encode(const std::vector<std::uint8_t> &data,
+                                        std::size_t row_count,
+                                        std::size_t column_count, Color color) {
+  return Encode(data.data(), row_count, column_count, color);
+}
 
 }  // namespace PngCodec

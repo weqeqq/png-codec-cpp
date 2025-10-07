@@ -58,6 +58,15 @@ add_library(PngCodec       OBJECT)
 add_library(PngCodecShared SHARED)
 add_library(PngCodecStatic STATIC)
 
+add_library(PngCodec::Shared ALIAS PngCodecShared)
+add_library(PngCodec::Static ALIAS PngCodecStatic)
+
+if(BUILD_SHARED_LIBS)
+    add_library(PngCodec::PngCodec ALIAS PngCodecShared)
+else()
+    add_library(PngCodec::PngCodec ALIAS PngCodecStatic)
+endif()
+
 target_compile_definitions(
     PngCodecShared
     PUBLIC
