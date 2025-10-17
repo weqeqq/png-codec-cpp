@@ -1,6 +1,6 @@
 
 cmake_minimum_required(VERSION 3.10)
-project(PngCodecCpp)
+project(Png)
 
 include(FetchContent)
 include(GenerateExportHeader)
@@ -54,47 +54,45 @@ foreach(library wuffs fpng)
     endif()
 endforeach()
 
-add_library(PngCodec       OBJECT)
-add_library(PngCodecShared SHARED)
-add_library(PngCodecStatic STATIC)
+add_library(Png   OBJECT)
+add_library(PngSd SHARED)
+add_library(PngSc STATIC)
 
-add_library(PngCodec::Shared ALIAS PngCodecShared)
-add_library(PngCodec::Static ALIAS PngCodecStatic)
+add_library(Png::PngSd ALIAS PngSd)
+add_library(Png::PngSc ALIAS PngSc)
 
 if(BUILD_SHARED_LIBS)
-    add_library(PngCodec::PngCodec ALIAS PngCodecShared)
+    add_library(Png::Png ALIAS PngSd)
 else()
-    add_library(PngCodec::PngCodec ALIAS PngCodecStatic)
+    add_library(Png::Png ALIAS PngSc)
 endif()
 
 target_compile_definitions(
-    PngCodecShared
+    PngSd
     PUBLIC
-        PNG_CODEC_SHARED
-    PRIVATE
-        PNG_CODEC_STATIC
+        PNG_SHARED
 )
 target_link_libraries(
-    PngCodec
+    Png
     PUBLIC
-    PngCodecDecode
-    PngCodecEncode
+    PngDecode
+    PngEncode
 )
-target_compile_features(PngCodec PUBLIC cxx_std_17)
-target_sources(PngCodec
+target_compile_features(Png PUBLIC cxx_std_17)
+target_sources(Png
     PUBLIC
     FILE_SET HEADERS BASE_DIRS headers
     FILES
-    headers/png-codec-cpp/png.h
+    headers/wqpng/png.h
     PRIVATE
     sources/png.cc
 )
-foreach(target PngCodecShared PngCodecStatic)
+foreach(target PngSd PngSc)
     target_link_libraries(
         ${target}
         PUBLIC
-            PngCodec
-            PngCodecDecode
-            PngCodecEncode
+            Png
+            PngDecode
+            PngEncode
     )
 endforeach()

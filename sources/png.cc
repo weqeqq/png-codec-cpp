@@ -1,13 +1,12 @@
-// png.cc
 #include <fpng.h>
-#include <png-codec-cpp/png.h>
+#include <wqpng/png.h>
 #include <wuffs.h>
 
 #include <cstring>
 #include <memory>
 #include <vector>
 
-namespace PngCodec {
+namespace Png {
 
 namespace {
 
@@ -31,6 +30,12 @@ std::vector<std::uint8_t> Decode(const std::uint8_t *data, std::size_t length,
                                  std::size_t &column_count, Color color) {
   if (!data || length == 0) {
     throw DecodeError("Invalid input data");
+  }
+  if (length < Signature.size()) {
+    throw DecodeError("Invalid PNG signature");
+  }
+  if (!IsPng(data, data + Signature.size())) {
+    throw DecodeError("Invalid PNG signature");
   }
 
   std::unique_ptr<wuffs_png__decoder, decltype(&free)> decoder(
@@ -129,4 +134,4 @@ std::vector<std::uint8_t> Encode(const std::uint8_t *data,
   }
   return output;
 }
-}  // namespace PngCodec
+}  // namespace Png

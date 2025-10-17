@@ -1,14 +1,14 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 00000000..c1528df8
+index 00000000..cac3588b
 --- /dev/null
 +++ b/CMakeLists.txt
 @@ -0,0 +1,11 @@
 +cmake_minimum_required(VERSION 3.23)
 +
-+add_library(PngCodecDecode OBJECT)
++add_library(PngDecode OBJECT)
 +
-+target_sources(PngCodecDecode
++target_sources(PngDecode
 +    PUBLIC
 +    FILE_SET HEADERS FILES
 +        wuffs.h

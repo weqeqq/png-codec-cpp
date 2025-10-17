@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 0d07f58..cf18453 100644
+index 0d07f58..9ae144a 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,88 +1,11 @@
@@ -89,13 +89,13 @@ index 0d07f58..cf18453 100644
 -
 -if (NOT MSVC)
 -   target_link_libraries(fpng_test m pthread)
-+add_library(PngCodecEncode OBJECT)
-+if(NOT MSVC)
-+    target_compile_options(PngCodecEncode PRIVATE -msse4.1 -mpclmul)
++add_library(PngEncode OBJECT)
++if(NOT MSVC AND NOT APPLE)
++    target_compile_options(PngEncode PRIVATE -msse4.1 -mpclmul)
  endif()
 -
 -install(TARGETS fpng_test DESTINATION bin)
-+target_sources(PngCodecEncode
++target_sources(PngEncode
 +    PUBLIC FILE_SET HEADERS BASE_DIRS src
 +    FILES   src/fpng.h
 +    PRIVATE src/fpng.cpp
