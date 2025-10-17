@@ -20,7 +20,7 @@ This project uses CMake and automatically fetches its dependencies. Simply inclu
 
 ```cmake
 add_subdirectory(png-codec-cpp)
-target_link_libraries(your_target PngCodecStatic)  # or PngCodecShared
+target_link_libraries(your_target Png::Png)  # Shared or static based on BUILD_SHARED_LIBS
 ```
 
 ### Building
@@ -37,7 +37,7 @@ make
 ### Basic Example
 
 ```cpp
-#include <png-codec-cpp/png.h>
+#include <wqpng/png.h>
 #include <fstream>
 #include <iostream>
 
@@ -45,23 +45,23 @@ int main() {
     try {
         // Read PNG file
         std::ifstream file("input.png", std::ios::binary);
-        PngCodec::ByteContainer png_data((std::istreambuf_iterator<char>(file)),
+        std::vector<std::uint8_t> png_data((std::istreambuf_iterator<char>(file)),
                                          std::istreambuf_iterator<char>());
 
         // Decode PNG
-        int width, height;
-        auto pixels = PngCodec::Decode(png_data, height, width, PngCodec::Color::Rgba);
+        std::size_t width, height;
+        auto pixels = Png::Decode(png_data, height, width, Png::Color::Rgba);
 
         std::cout << "Decoded " << width << "x" << height << " PNG image" << std::endl;
 
         // Encode back to PNG
-        auto encoded = PngCodec::Encode(pixels, height, width, PngCodec::Color::Rgba);
+        auto encoded = Png::Encode(pixels, height, width, Png::Color::Rgba);
 
         // Write to file
         std::ofstream output("output.png", std::ios::binary);
         output.write(reinterpret_cast<const char*>(encoded.data()), encoded.size());
 
-    } catch (const PngCodec::Error& e) {
+    } catch (const Png::Error& e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;
     }
@@ -87,29 +87,29 @@ The library supports various color formats:
 #### Decoding
 
 ```cpp
-ByteContainer Decode(
-    const ByteContainer &data,         // PNG file data
-    int                 &row_count,    // Output: image height
-    int                 &column_count, // Output: image width
-    Color               color          // Desired output format
+std::vector<std::uint8_t> Decode(
+    const std::vector<std::uint8_t> &data,  // PNG file data
+    std::size_t                     &row_count,    // Output: image height
+    std::size_t                     &column_count, // Output: image width
+    Color                           color          // Desired output format
 );
 
 // Convenience overload (defaults to RGBA)
-ByteContainer Decode(
-    const ByteContainer &data,
-    int                 &row_count,
-    int                 &column_count
+std::vector<std::uint8_t> Decode(
+    const std::vector<std::uint8_t> &data,
+    std::size_t                     &row_count,
+    std::size_t                     &column_count
 );
 ```
 
 #### Encoding
 
 ```cpp
-ByteContainer Encode(
-    const ByteContainer &data,            // Pixel data
-    int                  row_count,       // Image height
-    int                  column_count,    // Image width
-    Color                color            // Input pixel format
+std::vector<std::uint8_t> Encode(
+    const std::vector<std::uint8_t> &data,            // Pixel data
+    std::size_t                      row_count,       // Image height
+    std::size_t                      column_count,    // Image width
+    Color                            color            // Input pixel format
 );
 ```
 
@@ -117,9 +117,9 @@ ByteContainer Encode(
 
 The library uses exception-based error handling:
 
-- `PngCodec::Error` - Base exception class
-- `PngCodec::DecodeError` - Thrown during decoding failures
-- `PngCodec::EncodeError` - Thrown during encoding failures
+- `Png::Error` - Base exception class
+- `Png::DecodeError` - Thrown during decoding failures
+- `Png::EncodeError` - Thrown during encoding failures
 
 ## Dependencies
 
