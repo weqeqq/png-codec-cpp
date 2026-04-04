@@ -1,0 +1,6 @@
+[wrap-git]
+url = https://github.com/weqeqq/fpng.git
+revision = 6a8bb9e6971082a60b10ae4e14d6115d1eda85b0
+
+[provide]
+fpng = fpng_dep

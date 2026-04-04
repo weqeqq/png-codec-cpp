@@ -1,3 +1,14 @@
 .cache
 build
+build-ci
 compile_commands.json
+result
+result-*
+/fpng/
+/subprojects/*
+!/subprojects/.wraplock
+!/subprojects/*.wrap
+!/subprojects/packagefiles/
+/subprojects/packagefiles/*
+!/subprojects/packagefiles/lodepng-meson/
+!/subprojects/packagefiles/lodepng-meson/**

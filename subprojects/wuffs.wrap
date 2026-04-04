@@ -1,0 +1,6 @@
+[wrap-git]
+url = https://github.com/weqeqq/wuffs.git
+revision = 2511f40290a57d437af9ae6136370954a1ac270c
+
+[provide]
+wuffs = wuffs_dep

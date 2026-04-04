@@ -1,0 +1,6 @@
+[wrap-git]
+url = https://github.com/weqeqq/wqcolor.git
+revision = 467c5f5e598b51f2ce3e94d23eb17b90b966ef31
+
+[provide]
+wqcolor = wqcolor_dep
