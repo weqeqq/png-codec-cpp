@@ -17,6 +17,7 @@ opt_install = get_option('install')
 # ── Subprojects / External deps ────────────────────────────────────
 wqcolor_dep = dependency(
   'wqcolor',
+  version: '>=0.1.1',
   fallback: ['wqcolor', 'wqcolor_dep'],
   required: true,
 )

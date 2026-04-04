@@ -54,11 +54,11 @@
         "wqparallel": "wqparallel"
       },
       "locked": {
-        "lastModified": 1775310028,
-        "narHash": "sha256-ZVV8bOkaxtJqYNjDktieOApoEtug5InqgfeavK+PiPY=",
+        "lastModified": 1775320463,
+        "narHash": "sha256-wSA+49+zaqh9pRTSd47yInv/WfsWWV9Sdyc6jEECM+0=",
         "owner": "weqeqq",
         "repo": "wqcolor",
-        "rev": "467c5f5e598b51f2ce3e94d23eb17b90b966ef31",
+        "rev": "d79cbecb20f104b8eccf2198b9aaf426be6a09f4",
         "type": "github"
       },
       "original": {
