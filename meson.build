@@ -30,13 +30,23 @@ wqfile_dep = dependency(
 wuffs_needed = (opt_decoder == 'wuffs' or opt_encoder == 'wuffs')
 lodepng_needed = (opt_decoder == 'lodepng' or opt_encoder == 'lodepng')
 fpng_needed = (opt_encoder == 'fpng')
+windows_static_fallback = host_machine.system() == 'windows' ? ['default_library=static'] : []
 
 if wuffs_needed
-  wuffs_dep = dependency('wuffs', fallback: ['wuffs', 'wuffs_dep'])
+  wuffs_dep = dependency(
+    'wuffs',
+    fallback: ['wuffs', 'wuffs_dep'],
+    default_options: windows_static_fallback,
+  )
 endif
 
 if fpng_needed
-  fpng_dep = dependency('fpng', fallback: ['fpng', 'fpng_dep'], required: true)
+  fpng_dep = dependency(
+    'fpng',
+    fallback: ['fpng', 'fpng_dep'],
+    default_options: windows_static_fallback,
+    required: true,
+  )
 endif
 
 if lodepng_needed
