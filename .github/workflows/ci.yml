@@ -65,18 +65,6 @@ jobs:
           HOMEBREW_NO_AUTO_UPDATE: "1"
         run: brew install googletest pkg-config
 
-      - name: Install Windows dependencies
-        if: runner.os == 'Windows'
-        uses: lukka/run-vcpkg@v11
-
-      - name: Install Windows test packages
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          vcpkg install gtest:x64-windows
-          "CMAKE_PREFIX_PATH=$env:VCPKG_INSTALLATION_ROOT\installed\x64-windows" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "PKG_CONFIG_PATH=$env:VCPKG_INSTALLATION_ROOT\installed\x64-windows\lib\pkgconfig;$env:VCPKG_INSTALLATION_ROOT\installed\x64-windows\share\pkgconfig" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
       - name: Configure Meson on Linux and macOS
         if: runner.os != 'Windows'
         shell: bash
@@ -98,7 +86,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          meson setup build --vsenv --buildtype=debugoptimized -Dtests=true -Dinstall=false -Ddecoder=${{ matrix.decoder }} -Dencoder=${{ matrix.encoder }}
+          meson setup build --vsenv --wrap-mode=forcefallback --buildtype=debugoptimized -Dtests=true -Dinstall=false -Ddecoder=${{ matrix.decoder }} -Dencoder=${{ matrix.encoder }}
 
       - name: Compile
         run: meson compile -C build
