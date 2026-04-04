@@ -113,8 +113,8 @@ endif
 
 # ── Tests ──────────────────────────────────────────────────────────
 if opt_tests
-  gtest_dep = dependency('gtest', required: true)
-  gtest_main_dep = dependency('gtest_main', required: true)
+  gtest_dep = dependency('gtest', fallback: ['gtest', 'gtest_dep'], required: true)
+  gtest_main_dep = dependency('gtest_main', fallback: ['gtest', 'gtest_main_dep'], required: true)
 
   png_test = executable(
     'png-test',

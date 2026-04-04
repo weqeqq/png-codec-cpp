@@ -53,6 +53,7 @@
               ./sources
               ./subprojects/.wraplock
               ./subprojects/fpng.wrap
+              ./subprojects/gtest.wrap
               ./subprojects/lodepng.wrap
               (lib.fileset.maybeMissing ./subprojects/wqcolor.wrap)
               ./subprojects/wqfile.wrap
