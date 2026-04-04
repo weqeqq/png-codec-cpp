@@ -83,8 +83,13 @@ endif
 
 # ── Export macro (platform) ────────────────────────────────────────
 if host_machine.system() == 'windows'
-  wqpng_private_defs = ['-DWQPNG_EXPORT=__declspec(dllexport)']
-  wqpng_interface_defs = ['-DWQPNG_EXPORT=__declspec(dllimport)']
+  if get_option('default_library') == 'static'
+    wqpng_private_defs = ['-DWQPNG_EXPORT=']
+    wqpng_interface_defs = ['-DWQPNG_EXPORT=']
+  else
+    wqpng_private_defs = ['-DWQPNG_EXPORT=__declspec(dllexport)']
+    wqpng_interface_defs = ['-DWQPNG_EXPORT=__declspec(dllimport)']
+  endif
 else
   wqpng_private_defs = ['-DWQPNG_EXPORT=']
   wqpng_interface_defs = ['-DWQPNG_EXPORT=']
@@ -99,6 +104,19 @@ sources = files(
 )
 
 includes = include_directories('headers')
+wqpng_pkg_private_requires = ['wqfile']
+
+if wuffs_needed
+  wqpng_pkg_private_requires += ['wuffs']
+endif
+
+if fpng_needed
+  wqpng_pkg_private_requires += ['fpng']
+endif
+
+if lodepng_needed
+  wqpng_pkg_private_requires += ['lodepng']
+endif
 
 # ── Library ────────────────────────────────────────────────────────
 wqpng_lib = library(
@@ -120,6 +138,17 @@ wqpng_dep = declare_dependency(
 # ── Install ────────────────────────────────────────────────────────
 if opt_install
   install_headers('headers/weqeqq/png.h', subdir: 'weqeqq')
+  pkgconfig = import('pkgconfig')
+  pkgconfig.generate(
+    libraries: ['-L${libdir}', '-lwqpng'],
+    name: 'wqpng',
+    description: 'PNG encode/decode library for C++23',
+    extra_cflags: wqpng_interface_defs,
+    requires: ['wqcolor >= 0.1.1'],
+    requires_private: wqpng_pkg_private_requires,
+    subdirs: '.',
+    version: meson.project_version(),
+  )
 endif
 
 # ── Tests ──────────────────────────────────────────────────────────
