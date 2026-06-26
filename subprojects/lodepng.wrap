@@ -1,7 +1,0 @@
-[wrap-git]
-url = https://github.com/lvandeve/lodepng.git
-revision = 9a857a004f2828f287fdd8a6d3ab454eebe07166
-patch_directory = lodepng-meson
-
-[provide]
-lodepng = lodepng_dep

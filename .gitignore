@@ -1,6 +1,9 @@
 .cache
+.xmake
 build
 build-ci
+.direnv
+.envrc
 compile_commands.json
 result
 result-*

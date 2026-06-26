@@ -1,4 +1,0 @@
-option('decoder', type: 'combo', choices: ['wuffs', 'lodepng'], value: 'wuffs',  description: 'PNG decoder implementation')
-option('encoder', type: 'combo', choices: ['fpng',  'lodepng'], value: 'fpng',   description: 'PNG encoder implementation')
-option('tests', type: 'boolean', value: false, description: 'Build tests')
-option('install', type: 'boolean', value: true, description: 'Install library and headers')
